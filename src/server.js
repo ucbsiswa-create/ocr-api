@@ -11,11 +11,18 @@ const app = express();
 
 const allowedOrigins = [
   "https://myucb.vercel.app",
+  "http://localhost:5173",
   "http://localhost:3000",
-  "https://script.google.com/macros/s/AKfycbxbT71vnzfRqzPU4WiDHPgXFfWgScuA1anLE0ubYBRP86M0n7ddUPwXm_onUeUIrJcagA/exec"
 ];
+
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST"],
 }));
 const PORT = process.env.PORT || 3000;
@@ -157,7 +164,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`OCR API running at http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`OCR API running on port ${PORT}`);
 });
 
