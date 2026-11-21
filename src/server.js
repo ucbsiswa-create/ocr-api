@@ -8,8 +8,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+
+const allowedOrigins = [
+  "https://myucb.vercel.app",
+  "http://localhost:3000",
+  "https://script.google.com/macros/s/AKfycbxbT71vnzfRqzPU4WiDHPgXFfWgScuA1anLE0ubYBRP86M0n7ddUPwXm_onUeUIrJcagA/exec"
+];
 app.use(cors({
-  origin: "https://script.google.com/macros/s/AKfycbxbT71vnzfRqzPU4WiDHPgXFfWgScuA1anLE0ubYBRP86M0n7ddUPwXm_onUeUIrJcagA/exec",
+  origin: allowedOrigins,
   methods: ["GET", "POST"],
 }));
 const PORT = process.env.PORT || 3000;
